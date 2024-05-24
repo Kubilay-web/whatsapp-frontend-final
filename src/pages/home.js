@@ -150,7 +150,7 @@ function Home({ socket }) {
     setCall((prevCall) => ({
       ...prevCall,
       callEnded: true,
-      receiveingCall: false,
+      receiveingCall: false, // receiveingCall'ı da false yapalım
     }));
     if (myVideo.current) {
       myVideo.current.srcObject = null;
