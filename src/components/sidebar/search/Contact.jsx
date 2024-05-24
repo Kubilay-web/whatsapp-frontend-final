@@ -8,6 +8,7 @@ function Contact({ contact, setSearchResults, socket }) {
   const { token } = user;
   const values = {
     receiver_id: contact._id,
+    isGroup: false,
     token,
   };
   const openConversation = async () => {

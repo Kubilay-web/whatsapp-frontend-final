@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const CONVERSATION_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/conervsation`;
+const CONVERSATION_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/conversation`;
 const MESSAGE_ENDPOINT = `${process.env.REACT_APP_API_ENDPOINT}/message`;
 
 const initialState = {
@@ -31,13 +31,13 @@ export const getConversations = createAsyncThunk(
   }
 );
 export const open_create_conversation = createAsyncThunk(
-  "conervsation/open_create",
+  "conversation/open_create",
   async (values, { rejectWithValue }) => {
     const { token, receiver_id, isGroup } = values;
     try {
       const { data } = await axios.post(
         CONVERSATION_ENDPOINT,
-        { receiver_id, isGroup },
+        { receiver_id, isGroup, token },
         {
           headers: {
             Authorization: `Bearer ${token}`,
