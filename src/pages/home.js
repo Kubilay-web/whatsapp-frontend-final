@@ -137,11 +137,6 @@ function Home({ socket }) {
     });
     peer.signal(call.signal);
     connectionRef.current = peer;
-
-    // Answer call yapıldıktan sonra close call
-    peer.on("close", () => {
-      endCall();
-    });
   };
 
   // end call function
@@ -151,6 +146,7 @@ function Home({ socket }) {
       ...prevCall,
       callEnded: true,
       receiveingCall: false, // receiveingCall'ı da false yapalım
+      callAccepted: false, // callAccepted durumunu false yapalım
     }));
     if (myVideo.current) {
       myVideo.current.srcObject = null;
@@ -159,7 +155,6 @@ function Home({ socket }) {
     if (userVideo.current) {
       userVideo.current.srcObject = null;
     }
-    socket.emit("end call", call.socketId);
 
     navigator.mediaDevices
       .getUserMedia({ video: false, audio: false })
