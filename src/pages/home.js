@@ -124,7 +124,7 @@ function Home({ socket }) {
     const peer = new Peer({
       initiator: false,
       trickle: false,
-      stream: true,
+      stream: stream,
     });
     peer.on("signal", (data) => {
       socket.emit("answer call", { signal: data, to: call.socketId });
