@@ -13,6 +13,7 @@ export default function CreateGroup({ setShowCreateGroup }) {
   const [name, setName] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  console.log(selectedUsers);
   const handleSearch = async (e) => {
     if (e.target.value && e.key === "Enter") {
       setSearchResults([]);
