@@ -155,7 +155,17 @@ function Home({ socket }) {
     if (myVideo.current) {
       myVideo.current.srcObject = null;
     }
+
+    if (userVideo.current) {
+      userVideo.current.srcObject = null;
+    }
     socket.emit("end call", call.socketId);
+
+    navigator.mediaDevices
+      .getUserMedia({ video: false, audio: false })
+      .then((stream) => {
+        setStream(stream);
+      });
 
     // Senkronize olarak diğer tarafın da çağrısını sonlandır
     if (connectionRef.current) {
