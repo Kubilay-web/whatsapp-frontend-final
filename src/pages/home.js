@@ -151,7 +151,12 @@ function Home({ socket }) {
       myVideo.current.srcObject = null;
     }
     socket.emit("end call", call.socketId);
-    connectionRef.current?.destroy();
+
+    // Senkronize olarak diğer tarafın da çağrısını sonlandır
+    if (connectionRef.current) {
+      connectionRef.current.destroy();
+      socket.emit("end call", call.socketId); // Diğer tarafa da çağrıyı sonlandırma sinyali gönder
+    }
   };
 
   // setup media
