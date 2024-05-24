@@ -142,10 +142,12 @@ function Home({ socket }) {
   // end call function
   const endCall = () => {
     setShow(false);
+    setCallAccepted(false);
     setCall((prevCall) => ({
       ...prevCall,
       callEnded: true,
       receiveingCall: false, // receiveingCall'ı da false yapalım
+      callAccepted: false,
     }));
     if (myVideo.current) {
       myVideo.current.srcObject = null;
