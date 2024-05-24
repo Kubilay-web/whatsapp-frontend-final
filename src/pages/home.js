@@ -160,10 +160,11 @@ function Home({ socket }) {
     // Senkronize olarak diğer tarafın da çağrısını sonlandır
     if (connectionRef.current) {
       connectionRef.current.destroy();
-      socket.emit("end call", call.socketId); // Diğer tarafa da çağrıyı sonlandırma sinyali gönder
     }
   };
 
+  // Senkronize olarak diğer tarafa da çağrıyı sonlandırma sinyali gönder
+  socket.emit("end call", call.socketId);
   // setup media
   const setupMedia = () => {
     navigator.mediaDevices
