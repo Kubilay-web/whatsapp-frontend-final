@@ -17,7 +17,7 @@ import {
 
 const callData = {
   socketId: "",
-  receiveingCall: false,
+  receivingCall: false,
   callEnded: false,
   name: "",
   picture: "",
@@ -33,7 +33,7 @@ function Home({ socket }) {
   const [call, setCall] = useState(callData);
   const [stream, setStream] = useState();
   const [show, setShow] = useState(false);
-  const { receiveingCall, callEnded, socketId } = call;
+  const { receivingCall, callEnded, socketId } = call;
   const [callAccepted, setCallAccepted] = useState(false);
   const [totalSecInCall, setTotalSecInCall] = useState(0);
   const myVideo = useRef(null);
@@ -63,7 +63,7 @@ function Home({ socket }) {
         name: data.name,
         picture: data.picture,
         signal: data.signal,
-        receiveingCall: true,
+        receivingCall: true,
         callEnded: false,
       });
     });
@@ -72,7 +72,7 @@ function Home({ socket }) {
       setCall((prevCall) => ({
         ...prevCall,
         callEnded: true,
-        receiveingCall: false,
+        receivingCall: false,
       }));
       if (myVideo.current) {
         myVideo.current.srcObject = null;
@@ -144,7 +144,7 @@ function Home({ socket }) {
     setCall((prevCall) => ({
       ...prevCall,
       callEnded: true,
-      receiveingCall: false,
+      receivingCall: false,
     }));
     if (myVideo.current) {
       myVideo.current.srcObject = null;
