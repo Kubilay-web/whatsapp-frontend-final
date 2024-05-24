@@ -130,13 +130,18 @@ function Home({ socket }) {
     peer.on("signal", (data) => {
       socket.emit("answer call", { signal: data, to: call.socketId });
     });
-    peer.on("stream", (remoteStream) => {
+    peer.on("stream", (stream) => {
       if (userVideo.current) {
-        userVideo.current.srcObject = remoteStream;
+        userVideo.current.srcObject = stream;
       }
     });
     peer.signal(call.signal);
     connectionRef.current = peer;
+
+    // Answer call yapıldıktan sonra close call
+    peer.on("close", () => {
+      endCall();
+    });
   };
 
   // end call function
