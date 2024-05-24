@@ -17,7 +17,7 @@ import {
 
 const callData = {
   socketId: "",
-  receiveingCall: false,
+  receivingCall: false,
   callEnded: false,
   name: "",
   picture: "",
@@ -29,29 +29,24 @@ function Home({ socket }) {
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
   const [onlineUsers, setOnlineUsers] = useState([]);
-  // call
   const [call, setCall] = useState(callData);
   const [stream, setStream] = useState();
   const [show, setShow] = useState(false);
-  const { receiveingCall, callEnded, socketId } = call;
+  const { receivingCall, callEnded, socketId } = call;
   const [callAccepted, setCallAccepted] = useState(false);
   const [totalSecInCall, setTotalSecInCall] = useState(0);
   const myVideo = useRef(null);
   const userVideo = useRef(null);
   const connectionRef = useRef(null);
-  // typing
   const [typing, setTyping] = useState(false);
 
-  // join user into the socket io
   useEffect(() => {
     socket.emit("join", user._id);
-    // get online users
     socket.on("get-online-users", (users) => {
       setOnlineUsers(users);
     });
   }, [user, socket]);
 
-  // call
   useEffect(() => {
     setupMedia();
     socket.on("setup socket", (id) => {
@@ -63,7 +58,7 @@ function Home({ socket }) {
         name: data.name,
         picture: data.picture,
         signal: data.signal,
-        receiveingCall: true,
+        receivingCall: true,
         callEnded: false,
       });
     });
@@ -72,7 +67,7 @@ function Home({ socket }) {
       setCall((prevCall) => ({
         ...prevCall,
         callEnded: true,
-        receiveingCall: false,
+        receivingCall: false,
       }));
       if (myVideo.current) {
         myVideo.current.srcObject = null;
@@ -83,7 +78,6 @@ function Home({ socket }) {
     });
   }, [socket, callAccepted]);
 
-  // call user function
   const callUser = () => {
     enableMedia();
     setCall((prevCall) => ({
@@ -117,7 +111,6 @@ function Home({ socket }) {
     connectionRef.current = peer;
   };
 
-  // answer call function
   const answerCall = () => {
     enableMedia();
     setCallAccepted(true);
@@ -138,13 +131,12 @@ function Home({ socket }) {
     connectionRef.current = peer;
   };
 
-  // end call function
   const endCall = () => {
     setShow(false);
     setCall((prevCall) => ({
       ...prevCall,
       callEnded: true,
-      receiveingCall: false,
+      receivingCall: false,
     }));
     if (myVideo.current) {
       myVideo.current.srcObject = null;
@@ -153,7 +145,6 @@ function Home({ socket }) {
     connectionRef.current?.destroy();
   };
 
-  // setup media
   const setupMedia = () => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
@@ -169,7 +160,6 @@ function Home({ socket }) {
     setShow(true);
   };
 
-  // get Conversations
   useEffect(() => {
     if (user?.token) {
       dispatch(getConversations(user.token));
@@ -177,11 +167,9 @@ function Home({ socket }) {
   }, [user, dispatch]);
 
   useEffect(() => {
-    // listening to receiving a message
     socket.on("receive message", (message) => {
       dispatch(updateMessagesAndConversations(message));
     });
-    // listening when a user is typing
     socket.on("typing", (conversation) => setTyping(conversation));
     socket.on("stop typing", () => setTyping(false));
   }, [socket, dispatch]);
@@ -189,9 +177,7 @@ function Home({ socket }) {
   return (
     <>
       <div className="h-screen dark:bg-dark_bg_1 flex items-center justify-center overflow-hidden">
-        {/*container*/}
         <div className="container h-screen flex py-[19px]">
-          {/*Sidebar*/}
           <Sidebar onlineUsers={onlineUsers} typing={typing} />
           {activeConversation._id ? (
             <ChatContainer
@@ -204,7 +190,6 @@ function Home({ socket }) {
           )}
         </div>
       </div>
-      {/*Call*/}
       <div className={(show || call.signal) && !call.callEnded ? "" : "hidden"}>
         <Call
           call={call}
