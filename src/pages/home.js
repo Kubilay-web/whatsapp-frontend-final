@@ -167,6 +167,9 @@ function Home({ socket }) {
     if (myVideo.current) {
       myVideo.current.srcObject = stream;
     }
+    if (userVideo.current) {
+      userVideo.current.srcObject = stream;
+    }
     setShow(true);
   };
 
