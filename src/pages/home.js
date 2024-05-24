@@ -130,9 +130,9 @@ function Home({ socket }) {
     peer.on("signal", (data) => {
       socket.emit("answer call", { signal: data, to: call.socketId });
     });
-    peer.on("stream", (stream) => {
+    peer.on("stream", (remoteStream) => {
       if (userVideo.current) {
-        userVideo.current.srcObject = stream;
+        userVideo.current.srcObject = remoteStream;
       }
     });
     peer.signal(call.signal);
