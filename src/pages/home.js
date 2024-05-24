@@ -172,6 +172,9 @@ function Home({ socket }) {
       connectionRef.current.destroy();
       socket.emit("end call", call.socketId); // Diğer tarafa da çağrıyı sonlandırma sinyali gönder
     }
+
+    // Karşı tarafın çağrısını sonlandır
+    socket.emit("end call", call.socketId);
   };
 
   // setup media
