@@ -146,7 +146,6 @@ function Home({ socket }) {
       ...prevCall,
       callEnded: true,
       receiveingCall: false, // receiveingCall'ı da false yapalım
-      callAccepted: false, // callAccepted durumunu false yapalım
     }));
     if (myVideo.current) {
       myVideo.current.srcObject = null;
